@@ -1,0 +1,364 @@
+@import "tailwindcss";
+
+/* ───────────────────────────────────────────── tokens
+   Bone paper, ink, and one signal red that only ever means "you're on the list"
+   or "this is live". Photography carries the colour; the UI stays out of the way. */
+@theme {
+  --color-bone: #ece9e3;
+  --color-bone-2: #e1ddd5;
+  --color-bone-3: #d3cec4;
+  --color-ink: #0d0d0c;
+  --color-char: #181816;
+  --color-char-2: #232320;
+  --color-graphite: #3b3a37;
+  --color-stone: #6b6862;
+  --color-ash: #8e8b85;
+  --color-fog: #b9b5ad;
+  --color-signal: #c73a1f;
+
+  --font-sans: var(--font-archivo), "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-serif: var(--font-instrument), "Times New Roman", serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out-quart: cubic-bezier(0.76, 0, 0.24, 1);
+
+  --breakpoint-xs: 26rem;
+}
+
+:root {
+  --gutter: clamp(1rem, 2.4vw, 2.25rem);
+  --header-h: 4rem;
+  color-scheme: light;
+}
+
+/* ───────────────────────────────────────────── base */
+@layer base {
+  html {
+    background: var(--color-bone);
+    color: var(--color-ink);
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    font-size: 0.9375rem;
+    line-height: 1.55;
+    font-variation-settings: "wdth" 100;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  ::selection {
+    background: var(--color-ink);
+    color: var(--color-bone);
+  }
+
+  :focus-visible {
+    outline: 1.5px solid var(--color-signal);
+    outline-offset: 3px;
+  }
+
+  button {
+    cursor: pointer;
+  }
+
+  html.lenis,
+  html.lenis body {
+    height: auto;
+  }
+  .lenis.lenis-smooth [data-lenis-prevent] {
+    overscroll-behavior: contain;
+  }
+  html[data-scroll-locked] {
+    overflow: hidden;
+  }
+}
+
+/* ───────────────────────────────────────────── type */
+@utility t-mega {
+  font-size: clamp(3.25rem, 11.5vw, 12.5rem);
+  line-height: 0.84;
+  letter-spacing: -0.055em;
+  font-weight: 560;
+  font-variation-settings: "wdth" 92;
+}
+
+@utility t-display {
+  font-size: clamp(2.6rem, 7.2vw, 7.5rem);
+  line-height: 0.88;
+  letter-spacing: -0.05em;
+  font-weight: 540;
+  font-variation-settings: "wdth" 94;
+}
+
+@utility t-headline {
+  font-size: clamp(1.9rem, 4.2vw, 4rem);
+  line-height: 0.95;
+  letter-spacing: -0.04em;
+  font-weight: 520;
+  font-variation-settings: "wdth" 96;
+}
+
+@utility t-title {
+  font-size: clamp(1.35rem, 2vw, 1.75rem);
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+  font-weight: 520;
+}
+
+/* Instrument Serif italic: the human voice inside the grotesk. */
+@utility t-voice {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  font-variation-settings: normal;
+}
+
+@utility t-meta {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  line-height: 1.4;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-variation-settings: normal;
+}
+
+@utility t-body {
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  letter-spacing: -0.005em;
+}
+
+@utility t-lede {
+  font-size: clamp(1.05rem, 1.35vw, 1.25rem);
+  line-height: 1.45;
+  letter-spacing: -0.015em;
+}
+
+@utility gutter {
+  padding-inline: var(--gutter);
+}
+
+/* Link with a hairline that draws in from the left. */
+@utility link-line {
+  background-image: linear-gradient(currentColor, currentColor);
+  background-size: 0% 1px;
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  transition: background-size 0.6s var(--ease-out-expo);
+  &:hover,
+  &:focus-visible {
+    background-size: 100% 1px;
+  }
+}
+
+/* ───────────────────────────────────────────── film grain
+   One tiny SVG noise tile over dark surfaces, so blacks read as photographic. */
+@utility grain {
+  position: relative;
+  isolation: isolate;
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.09;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  }
+}
+
+/* ───────────────────────────────────────────── reveals (driven by <Reveal>) */
+[data-reveal] {
+  --reveal-delay: 0ms;
+}
+[data-reveal="fade"] {
+  opacity: 0;
+  translate: 0 1.25rem;
+  transition:
+    opacity 1.1s var(--ease-out-expo) var(--reveal-delay),
+    translate 1.1s var(--ease-out-expo) var(--reveal-delay);
+}
+[data-reveal="image"] {
+  clip-path: inset(100% 0 0 0);
+  transition: clip-path 1.4s var(--ease-in-out-quart) var(--reveal-delay);
+}
+[data-reveal="image"] img {
+  scale: 1.18;
+  transition: scale 1.8s var(--ease-out-expo) var(--reveal-delay);
+}
+[data-reveal="lines"] .line-inner {
+  display: block;
+  translate: 0 105%;
+  transition: translate 1.2s var(--ease-out-expo);
+  transition-delay: calc(var(--reveal-delay) + var(--i, 0) * 90ms);
+}
+[data-reveal][data-shown="true"] {
+  opacity: 1;
+  translate: 0 0;
+  clip-path: inset(0 0 0 0);
+}
+[data-reveal][data-shown="true"] img {
+  scale: 1;
+}
+[data-reveal="lines"][data-shown="true"] .line-inner {
+  translate: 0 0;
+}
+.line {
+  display: block;
+  overflow: clip;
+  padding-bottom: 0.06em;
+  margin-bottom: -0.06em;
+}
+
+/* No JS, or reduced motion: everything is simply there. */
+html:not(.js) [data-reveal],
+html:not(.js) [data-reveal] img,
+html:not(.js) [data-reveal] .line-inner {
+  opacity: 1 !important;
+  translate: none !important;
+  clip-path: none !important;
+  scale: 1 !important;
+}
+
+/* ───────────────────────────────────────────── hover image swap for piece cards */
+.piece-media img {
+  transition:
+    opacity 0.9s var(--ease-out-expo),
+    scale 1.4s var(--ease-out-expo);
+}
+.piece-media .alt {
+  opacity: 0;
+}
+@media (hover: hover) {
+  .piece:hover .piece-media .alt {
+    opacity: 1;
+  }
+  .piece:hover .piece-media img {
+    scale: 1.035;
+  }
+}
+
+/* ───────────────────────────────────────────── view transitions */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.5s;
+  animation-timing-function: var(--ease-out-expo);
+}
+::view-transition-old(root) {
+  animation-name: vt-out;
+}
+::view-transition-new(root) {
+  animation-name: vt-in;
+}
+@keyframes vt-out {
+  to {
+    opacity: 0;
+  }
+}
+@keyframes vt-in {
+  from {
+    opacity: 0;
+  }
+}
+::view-transition-group(.piece-morph) {
+  animation-duration: 0.7s;
+  animation-timing-function: var(--ease-in-out-quart);
+}
+::view-transition-image-pair(.piece-morph) {
+  animation-name: vt-soften;
+}
+@keyframes vt-soften {
+  40% {
+    filter: blur(2px);
+  }
+}
+
+/* Hero plate: painted on the first frame (it's the LCP), then settles. */
+.hero-plate {
+  animation: plate-in 1.8s var(--ease-out-expo) both;
+}
+.hero-plate img {
+  animation: plate-img 2.4s var(--ease-out-expo) both;
+}
+@keyframes plate-in {
+  from {
+    clip-path: inset(6% 4% 6% 4%);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+@keyframes plate-img {
+  from {
+    scale: 1.12;
+  }
+  to {
+    scale: 1;
+  }
+}
+
+/* ───────────────────────────────────────────── utilities */
+@keyframes scroll-cue {
+  0% {
+    transform: scaleY(0);
+    transform-origin: top;
+  }
+  45% {
+    transform: scaleY(1);
+    transform-origin: top;
+  }
+  55% {
+    transform: scaleY(1);
+    transform-origin: bottom;
+  }
+  100% {
+    transform: scaleY(0);
+    transform-origin: bottom;
+  }
+}
+
+@keyframes pulse-dot {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.35;
+  }
+}
+
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+  [data-reveal],
+  [data-reveal] img,
+  [data-reveal] .line-inner {
+    opacity: 1 !important;
+    translate: none !important;
+    clip-path: none !important;
+    scale: 1 !important;
+  }
+}
