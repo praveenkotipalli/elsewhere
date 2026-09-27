@@ -149,7 +149,7 @@ select p.id, i.src, i.alt, i.w, i.h, i.sort
 from public.products p
 join (values
   ('dragon-denim', '/images/drop-001/dragon-denim-01.jpg', 'Model leaning on a sunlit wall in extra-wide indigo jeans with a pale embroidered dragon down the left leg', 1536, 2048, 0),
-  ('dragon-denim', '/images/drop-001/dragon-denim-02.jpg', 'Close view of the chain-stitched dragon head at the hip', 660, 880, 1),
+  ('dragon-denim', '/images/drop-001/dragon-denim-02.jpg', 'Close view of the chain-stitched dragon head at the hip', 420, 560, 1),
   ('dragon-denim', '/images/drop-001/dragon-denim-03.jpg', 'The dragon''s tail curling into the raw, pooled hem', 880, 660, 2),
   ('afterhours-bomber', '/images/drop-001/afterhours-bomber-01.jpg', 'Model at night in a black satin bomber, the chest panel glowing white under flash', 1536, 2048, 0),
   ('afterhours-bomber', '/images/drop-001/afterhours-bomber-02.jpg', 'Close view of the retroreflective chest panel and brass zip', 660, 880, 1),

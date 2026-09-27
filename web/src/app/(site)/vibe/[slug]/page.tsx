@@ -36,7 +36,7 @@ export default async function VibePage({ params }: PageProps<"/vibe/[slug]">) {
       <header className="grid gap-y-6 md:grid-cols-12 md:gap-x-6">
         <p className="t-meta text-stone md:col-span-3">(Vibe — {pad(pieces.length)} pieces)</p>
         <div className="md:col-span-9">
-          <Lines as="h1" lines={[vibe.name]} className="t-mega" />
+          <Lines onLoad as="h1" lines={[vibe.name]} className="t-mega" />
           <Reveal delay={200}>
             <p className="t-voice mt-6 text-3xl text-stone md:text-4xl">{vibe.tagline}</p>
           </Reveal>

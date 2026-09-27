@@ -57,9 +57,10 @@ export function PieceCard({
               <p className={`t-voice mt-1 text-lg leading-snug ${muted}`}>{product.tagline}</p>
             )}
           </div>
-          <p className={`t-meta shrink-0 pt-1 text-right ${muted}`}>
-            {[product.drop && `Drop ${product.drop.code}`, product.category?.name].filter(Boolean).join(" · ")}
-            <span className="mt-1 block">{statusLabel[product.status]}</span>
+          <p className={`t-meta shrink-0 pt-1.5 text-right ${muted}`}>
+            {product.category?.name}
+            {/* Validating is the default state of everything; only call out the exceptions. */}
+            {product.status !== "validating" && <span className="mt-1 block">{statusLabel[product.status]}</span>}
           </p>
         </div>
       </Link>

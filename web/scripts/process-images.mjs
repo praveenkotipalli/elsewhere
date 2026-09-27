@@ -1,10 +1,10 @@
 import sharp from 'sharp';
-const R = 'C:/Users/pc/Desktop/elsewhere/raw/';
-const O = 'C:/Users/pc/Desktop/elsewhere/web/public/images/';
+const R = process.env.RAW_DIR ?? '../raw/';
+const O = 'public/images/';
 const jobs = [
   // [src, out, crop|null, maxWidth]
   ['dragon-denim-1.png', 'drop-001/dragon-denim-01.jpg', null, 1536],
-  ['dragon-denim-1.png', 'drop-001/dragon-denim-02.jpg', { left: 250, top: 650, width: 660, height: 880 }, 1200],
+  ['dragon-denim-1.png', 'drop-001/dragon-denim-02.jpg', { left: 360, top: 720, width: 420, height: 560 }, 1200],
   ['dragon-denim-1.png', 'drop-001/dragon-denim-03.jpg', { left: 330, top: 1380, width: 880, height: 660 }, 1200],
   ['afterhours-bomber-1.png', 'drop-001/afterhours-bomber-01.jpg', null, 1536],
   ['afterhours-bomber-1.png', 'drop-001/afterhours-bomber-02.jpg', { left: 500, top: 520, width: 660, height: 880 }, 1200],

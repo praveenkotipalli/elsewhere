@@ -183,9 +183,14 @@
     opacity 1.1s var(--ease-out-expo) var(--reveal-delay),
     translate 1.1s var(--ease-out-expo) var(--reveal-delay);
 }
-[data-reveal="image"] {
+/* The observed wrapper stays unclipped (a clipped target reports zero
+   intersection and would never reveal); only its children are masked. */
+[data-reveal="image"] > * {
   clip-path: inset(100% 0 0 0);
   transition: clip-path 1.4s var(--ease-in-out-quart) var(--reveal-delay);
+}
+[data-reveal="image"][data-shown="true"] > * {
+  clip-path: inset(0 0 0 0);
 }
 [data-reveal="image"] img {
   scale: 1.18;
@@ -200,7 +205,6 @@
 [data-reveal][data-shown="true"] {
   opacity: 1;
   translate: 0 0;
-  clip-path: inset(0 0 0 0);
 }
 [data-reveal][data-shown="true"] img {
   scale: 1;
@@ -211,12 +215,38 @@
 .line {
   display: block;
   overflow: clip;
-  padding-bottom: 0.06em;
-  margin-bottom: -0.06em;
+  /* Room for descenders under the tight display leading. */
+  padding-bottom: 0.16em;
+  margin-bottom: -0.16em;
+}
+
+/* Load-time reveals (hero, page headers): pure CSS, no JS dependency. */
+[data-reveal-load] {
+  --reveal-delay: 0ms;
+}
+[data-reveal-load="fade"] {
+  animation: reveal-fade 1.1s var(--ease-out-expo) var(--reveal-delay) both;
+}
+[data-reveal-load="lines"] .line-inner {
+  display: block;
+  animation: reveal-line 1.2s var(--ease-out-expo) both;
+  animation-delay: calc(var(--reveal-delay) + var(--i, 0) * 90ms);
+}
+@keyframes reveal-fade {
+  from {
+    opacity: 0;
+    translate: 0 1.25rem;
+  }
+}
+@keyframes reveal-line {
+  from {
+    translate: 0 105%;
+  }
 }
 
 /* No JS, or reduced motion: everything is simply there. */
 html:not(.js) [data-reveal],
+html:not(.js) [data-reveal] > *,
 html:not(.js) [data-reveal] img,
 html:not(.js) [data-reveal] .line-inner {
   opacity: 1 !important;
@@ -354,6 +384,7 @@ html:not(.js) [data-reveal] .line-inner {
     animation: none !important;
   }
   [data-reveal],
+  [data-reveal] > *,
   [data-reveal] img,
   [data-reveal] .line-inner {
     opacity: 1 !important;

@@ -26,6 +26,7 @@ export default function ManifestoPage() {
           <p className="t-meta text-stone md:col-span-3">(Manifesto)</p>
           <div className="md:col-span-9">
             <Lines
+              onLoad
               as="h1"
               lines={[
                 "Where'd you",

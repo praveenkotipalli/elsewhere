@@ -1,0 +1,25 @@
+import type { MetadataRoute } from "next";
+import { getDrops, getProducts, getVibes } from "@/lib/catalog";
+import { imageUrl } from "@/lib/images";
+import { site } from "@/lib/site";
+
+export const revalidate = 3600;
+
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const [products, drops, vibes] = await Promise.all([getProducts(), getDrops(), getVibes()]);
+  const u = (path: string) => new URL(path, site.url).toString();
+
+  return [
+    { url: u("/"), changeFrequency: "weekly", priority: 1 },
+    { url: u("/pieces"), changeFrequency: "weekly", priority: 0.8 },
+    { url: u("/manifesto"), changeFrequency: "monthly", priority: 0.5 },
+    ...drops.map((d) => ({ url: u(`/drop/${d.code}`), changeFrequency: "weekly" as const, priority: 0.9 })),
+    ...vibes.map((v) => ({ url: u(`/vibe/${v.slug}`), changeFrequency: "weekly" as const, priority: 0.6 })),
+    ...products.map((p) => ({
+      url: u(`/pieces/${p.slug}`),
+      changeFrequency: "weekly" as const,
+      priority: 0.8,
+      images: p.images.slice(0, 3).map((i) => new URL(imageUrl(i.src), site.url).toString()),
+    })),
+  ];
+}

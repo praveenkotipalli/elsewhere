@@ -35,6 +35,7 @@ export default async function DropPage({ params }: PageProps<"/drop/[code]">) {
           <p className="t-meta text-ash md:col-span-3">Drop — {pad(pieces.length)} pieces</p>
           <div className="md:col-span-9">
             <Lines
+              onLoad
               as="h1"
               lines={[
                 drop.code,

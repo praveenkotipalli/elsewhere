@@ -41,6 +41,7 @@ export default async function PiecesPage({ searchParams }: PageProps<"/pieces">)
         </p>
         <div className="md:col-span-9">
           <Lines
+            onLoad
             as="h1"
             lines={[
               "Everything,",
