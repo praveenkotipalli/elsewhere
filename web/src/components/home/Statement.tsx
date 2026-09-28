@@ -10,13 +10,15 @@ const STEPS = [
 export function Statement() {
   return (
     <section aria-labelledby="statement-title" className="gutter py-[clamp(6rem,16vw,14rem)]">
-      <div className="grid gap-y-10 md:grid-cols-12 md:gap-x-6">
-        <Reveal className="md:col-span-3">
-          <p className="t-meta text-stone">(Why we exist)</p>
-        </Reveal>
-        {/* Sewn in beside the copy on desktop; after it, to the right, on mobile. */}
-        <StitchedBlossomTree className="order-last justify-self-end md:order-none md:col-span-3 md:row-start-2 md:self-end md:justify-self-start" />
-        <div className="md:col-span-9 md:row-span-2">
+      {/* Half and half: the tree on the left, the copy on the right. */}
+      <div className="grid items-center gap-y-14 md:grid-cols-12 md:gap-x-6">
+        <div className="flex justify-center md:col-span-6">
+          <StitchedBlossomTree />
+        </div>
+        <div className="md:col-span-6">
+          <Reveal>
+            <p className="t-meta mb-8 text-stone md:mb-10">(Why we exist)</p>
+          </Reveal>
           <Lines
             as="h2"
             lines={[
@@ -28,13 +30,13 @@ export function Statement() {
             className="t-display"
             id="statement-title"
           />
-          <Reveal delay={200} className="mt-10 grid gap-6 md:mt-14 md:grid-cols-9 md:gap-6">
-            <p className="t-lede md:col-span-5">
+          <Reveal delay={200} className="mt-10 flex max-w-[38rem] flex-col gap-6 md:mt-14">
+            <p className="t-lede">
               Nobody needs another hoodie. We make the other thing — the piece someone notices from across the room, then
               can&rsquo;t stop thinking about. Strange details. Small runs. Clothes first, then objects for your room, your
               desk, your hands.
             </p>
-            <p className="t-body text-stone md:col-span-3 md:col-start-7">
+            <p className="t-body max-w-[34ch] text-stone">
               And we don&rsquo;t guess. Nothing gets made until enough people say they want it.
             </p>
           </Reveal>

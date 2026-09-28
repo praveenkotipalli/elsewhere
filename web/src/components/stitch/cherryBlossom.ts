@@ -37,14 +37,25 @@ const ROWS: Record<number, string> = {
   36: '14se7d2c1 15sc18860 16xaa714d 17t8a3b08 18t702d01 19t4e290e 20sb9aea2',
   37: '14xae6736 15t893705 16t702c00 17t672900 18t4f2000 19t502e14',
   38: '12se7d2bf 13xbd7e51 14t883906 15t722f05 16t672c04 17t502304 18t452005 19t4a250b 20x8c7564',
-  39: '13sd0a485 14sbc9882 15sb39581 16sb09582 17sa18f82 18sa08f83 19sa18f83 20sa9998e',
+  // Earth around the trunk, where it meets the ground below.
+  39: '13t5e4229 14t7a5b3d 15t5e4229 16t7a5b3d 17t5e4229 18t6b4c30 19t6b4c30 20t7a5b3d',
+};
+
+// The ground the tree stands on: a grass edge with a few tufts and two fallen
+// petals, over a low mound of soil. Same format as ROWS; cells never overlap the roots.
+const GROUND: Record<number, string> = {
+  38: '9sa3b87f 25sa3b87f 28sa3b87f 31s8fa86a',
+  39: '7x6d8a4e 8s9bb176 9x9bb176 10x9bb176 11x8fa86a 12s9bb176 21x7f9a5c 22x8fa86a 23x748f53 24x9bb176 25s7f9a5c 26x5f7a45 27x8fa86a 28x748f53 29x8fa86a 30x5f7a45 31s5f7a45 32x8fa86a 33x8fa86a',
+  40: '5x8fa86a 6x6d8a4e 7x5f7a45 8t7a5b3d 9t6b4c30 10t5e4229 11seec1d2 12t6b4c30 13t806043 14t5e4229 15x5f7a45 16t7a5b3d 17t5e4229 18t8a6a4a 19t8a6a4a 20t8a6a4a 21x748f53 22x5f7a45 23x8fa86a 24t8a6a4a 25t806043 26sd7658e 27t806043 28t7a5b3d 29x6d8a4e 30x7f9a5c 31t7a5b3d 32t6b4c30 33x9bb176 34x6d8a4e 35x748f53',
+  41: '7t7a5b3d 8t7a5b3d 9t806043 10t8a6a4a 11t6b4c30 12t8a6a4a 13t806043 14t5e4229 15t806043 16t8a6a4a 17t806043 18t8a6a4a 19t806043 20t6b4c30 21t5e4229 22t7a5b3d 23t7a5b3d 24t7a5b3d 25t6b4c30 26t8a6a4a 27t5e4229 28t5e4229 29t5e4229 30t6b4c30 31t8a6a4a 32t8a6a4a 33t806043',
+  42: '11t5a3e27 12t533823 13t4e3522 14t5a3e27 15t4e3522 16t4e3522 17t4e3522 18t4e3522 19t4e3522 20t4a3220 21t5a3e27 22t533823 23t4e3522 24t4a3220 25t5a3e27 26t4a3220 27t4e3522 28t533823 29t4a3220',
 };
 
 export const CHERRY_BLOSSOM = {
   cols: 44,
   rows: 44,
   cell: 16,
-  units: Object.entries(ROWS).flatMap(([r, row]) =>
+  units: [...Object.entries(ROWS), ...Object.entries(GROUND)].flatMap(([r, row]) =>
     row.split(' ').map((entry): PlacedUnit => {
       const [, c, kind, hex] = entry.match(/^(\d+)([sxt])([0-9a-f]{6})$/)!;
       return { r: Number(r), c: Number(c), unit: KINDS[kind], color: `#${hex}` };

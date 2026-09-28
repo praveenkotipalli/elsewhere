@@ -33,9 +33,10 @@ const BACKING_LIGHTEN = 0.45;
 
 // Petals drifting down from the canopy once the tree is sewn. Positions are
 // fractions of the tree box (canopy spans ~0.2–0.6 down); they fade out at
-// the roots (GROUND). Durations are long on purpose: a slow, calm fall.
+// the grass line of the stitched ground (GROUND). Durations are long on
+// purpose: a slow, calm fall.
 const PETAL_START_MS = 700;
-const GROUND = 0.93;
+const GROUND = 0.91;
 const PETALS = [
   { x: 0.24, y: 0.5, size: 1.0, dur: 11, delay: 0.2, drift: 0.05, wind: 0.07, color: '#e0729c' },
   { x: 0.62, y: 0.46, size: 0.8, dur: 13, delay: 2.4, drift: 0.04, wind: 0.1, color: '#eec1d2' },
@@ -304,7 +305,7 @@ export function StitchedBlossomTree({ className = "" }: { className?: string }) 
   const trim = (cells: number) => `calc(var(--tree) * ${-cells / CHERRY_BLOSSOM.cols})`;
   return (
     <div
-      className={`[--tree:200px] md:[--tree:260px] lg:[--tree:300px] ${className}`}
+      className={`[--tree:min(88vw,340px)] md:[--tree:min(52vw,480px)] xl:[--tree:600px] ${className}`}
       role="presentation"
       aria-hidden="true"
     >
