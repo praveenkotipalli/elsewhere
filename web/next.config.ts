@@ -4,6 +4,8 @@ const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseHost = supabaseUrl ? new URL(supabaseUrl) : null;
 
 const nextConfig: NextConfig = {
+  // Self-contained server bundle for the Docker image (see Dockerfile).
+  output: "standalone",
   images: {
     formats: ["image/avif", "image/webp"],
     deviceSizes: [420, 640, 828, 1080, 1280, 1600, 2048],

@@ -1,0 +1,25 @@
+# Keep the build context small and secrets out of the image.
+node_modules
+.next
+out
+.git
+.gitignore
+*.tsbuildinfo
+npm-debug.log*
+
+# Env files: values come in as build args / compose env, never baked from disk.
+.env
+.env.*
+!.env.example
+
+# Not needed to run the site
+supabase
+scripts
+README.md
+AGENTS.md
+CLAUDE.md
+Dockerfile
+docker-compose*.yml
+Caddyfile
+.vscode
+.idea

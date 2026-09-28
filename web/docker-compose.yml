@@ -1,0 +1,53 @@
+# Elsewhere on a single VPS: the Next.js app behind Caddy (automatic HTTPS).
+#
+#   cp .env.example .env    # fill it in
+#   docker compose up -d --build
+#
+# Values are read from ./.env. NEXT_PUBLIC_* are baked in at build time, so after
+# changing any of them run `docker compose up -d --build` again.
+
+services:
+  web:
+    build:
+      context: .
+      args:
+        NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL:?set NEXT_PUBLIC_SITE_URL in .env}
+        NEXT_PUBLIC_SUPABASE_URL: ${NEXT_PUBLIC_SUPABASE_URL:?set NEXT_PUBLIC_SUPABASE_URL in .env}
+        NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: ${NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY:?set NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY in .env}
+        NEXT_PUBLIC_AUTH_GOOGLE: ${NEXT_PUBLIC_AUTH_GOOGLE:-false}
+        NEXT_PUBLIC_INSTAGRAM_URL: ${NEXT_PUBLIC_INSTAGRAM_URL:-}
+    image: elsewhere-web:latest
+    restart: unless-stopped
+    environment:
+      # Server-side code reads these at runtime too (same values as the build).
+      NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL}
+      NEXT_PUBLIC_SUPABASE_URL: ${NEXT_PUBLIC_SUPABASE_URL}
+      NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: ${NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY}
+    volumes:
+      # Keeps the ISR/image cache across restarts and redeploys.
+      - next-cache:/app/.next/cache
+    # Only Caddy talks to the app; it is not published on the host.
+    expose:
+      - "3000"
+
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    depends_on:
+      web:
+        condition: service_healthy
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    environment:
+      DOMAIN: ${DOMAIN:?set DOMAIN in .env (e.g. elsewhere.in)}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data
+      - caddy-config:/config
+
+volumes:
+  next-cache:
+  caddy-data:
+  caddy-config:

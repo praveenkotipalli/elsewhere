@@ -58,6 +58,32 @@ Then open `/admin`. Everyone else gets a 404 there.
 
 ---
 
+## Deploy on a VPS with Docker
+
+The repo ships a production image (`Dockerfile`, Next.js standalone output) and a compose file that puts
+[Caddy](https://caddyserver.com) in front for automatic HTTPS. Supabase stays hosted (steps 1–4 above).
+
+On the VPS (Docker + Compose installed, ports 80/443 open, the domain's A record pointing at the server):
+
+```bash
+git clone <your repo> elsewhere && cd elsewhere/web
+cp .env.example .env        # fill DOMAIN and the NEXT_PUBLIC_* values
+docker compose up -d --build
+docker compose logs -f      # Caddy issues the certificate on first start
+```
+
+- **Rebuild after changing any `NEXT_PUBLIC_*` value** (`docker compose up -d --build`): they are baked into the
+  browser bundle at build time.
+- **The build needs to reach Supabase** — public pages are pre-rendered during `docker build`.
+- **Update:** `git pull && docker compose up -d --build`. The ISR cache and certificates live in named volumes.
+- `NEXT_PUBLIC_SITE_URL` must be `https://<DOMAIN>`, and that URL must be in Supabase's redirect URLs.
+- Health check: `GET /api/health`. The app listens only on the internal Docker network; Caddy is the only
+  thing exposed.
+- No domain yet? Temporarily replace `{$DOMAIN}` in the `Caddyfile` with `:80` and browse to the server IP
+  (no HTTPS, and Google sign-in will not work until you have a real domain).
+
+---
+
 ## How it's built
 
 ### Routes
