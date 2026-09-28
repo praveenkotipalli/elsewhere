@@ -68,9 +68,13 @@ On the VPS (Docker + Compose installed, ports 80/443 open, the domain's A record
 ```bash
 git clone <your repo> elsewhere && cd elsewhere/web
 cp .env.example .env        # fill DOMAIN and the NEXT_PUBLIC_* values
-docker compose up -d --build
-docker compose logs -f      # Caddy issues the certificate on first start
 ```
+
+- **Server already runs nginx (or another proxy) on 80/443** — the usual shared-VPS case:
+  `docker compose up -d --build`, then install `deploy/nginx.conf.example` as a site and run
+  `sudo certbot --nginx -d <domain>`. The app listens on `127.0.0.1:3010` (change with `WEB_PORT` in `.env`).
+- **Fresh server, nothing on 80/443:** `docker compose --profile caddy up -d --build` — Caddy terminates HTTPS
+  and issues the certificate on first start (`docker compose logs -f caddy`).
 
 - **Rebuild after changing any `NEXT_PUBLIC_*` value** (`docker compose up -d --build`): they are baked into the
   browser bundle at build time.

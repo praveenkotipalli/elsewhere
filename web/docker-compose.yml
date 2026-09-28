@@ -1,10 +1,16 @@
-# Elsewhere on a single VPS: the Next.js app behind Caddy (automatic HTTPS).
+# Elsewhere on a VPS.
 #
 #   cp .env.example .env    # fill it in
-#   docker compose up -d --build
 #
-# Values are read from ./.env. NEXT_PUBLIC_* are baked in at build time, so after
-# changing any of them run `docker compose up -d --build` again.
+# Server that ALREADY runs nginx/Apache/Traefik on ports 80/443 (the usual case):
+#   docker compose up -d --build
+#   → the app listens on 127.0.0.1:${WEB_PORT:-3010}; point your proxy at it
+#     (see deploy/nginx.conf.example).
+#
+# Fresh server with nothing on 80/443 — let the bundled Caddy do HTTPS:
+#   docker compose --profile caddy up -d --build
+#
+# NEXT_PUBLIC_* are baked in at build time, so after changing any of them rebuild (--build).
 
 services:
   web:
@@ -26,12 +32,13 @@ services:
     volumes:
       # Keeps the ISR/image cache across restarts and redeploys.
       - next-cache:/app/.next/cache
-    # Only Caddy talks to the app; it is not published on the host.
-    expose:
-      - "3000"
+    ports:
+      # Loopback only: reachable by a reverse proxy on this server, never from the internet.
+      - "127.0.0.1:${WEB_PORT:-3010}:3000"
 
   caddy:
     image: caddy:2-alpine
+    profiles: ["caddy"]
     restart: unless-stopped
     depends_on:
       web:
@@ -41,7 +48,7 @@ services:
       - "443:443"
       - "443:443/udp"
     environment:
-      DOMAIN: ${DOMAIN:?set DOMAIN in .env (e.g. elsewhere.in)}
+      DOMAIN: ${DOMAIN:-}
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile:ro
       - caddy-data:/data

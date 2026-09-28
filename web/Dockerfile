@@ -41,6 +41,11 @@ RUN case "$NEXT_PUBLIC_SUPABASE_URL" in \
         echo "NEXT_PUBLIC_SUPABASE_URL=$NEXT_PUBLIC_SUPABASE_URL points at a local Supabase." \
              "Use your hosted project's URL and publishable key in .env, then rebuild." && exit 1 ;; \
     esac
+# The Supabase CLI's local default key never belongs to a hosted project.
+RUN if [ "$NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY" = "sb_publishable_ACJWlzQHlZjBrEguHvfOxg_3BJgxAaH" ]; then \
+      echo "NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY is the local Supabase default key." \
+           "Copy the Publishable key from your hosted project (Project Settings -> API Keys) into .env." && exit 1; \
+    fi
 RUN npm run build
 
 # ── runtime: only the standalone server, static assets and public files ──────

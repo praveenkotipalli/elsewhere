@@ -1,0 +1,60 @@
+#0 building with "desktop-linux" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 3.50kB done
+#1 DONE 0.0s
+
+#2 resolve image config for docker-image://docker.io/docker/dockerfile:1.7
+#2 DONE 0.4s
+
+#3 docker-image://docker.io/docker/dockerfile:1.7@sha256:a57df69d0ea827fb7266491f2813635de6f17269be881f696fbfdf2d83dda33e
+#3 CACHED
+
+#4 [internal] load metadata for docker.io/library/node:22-alpine
+#4 DONE 0.3s
+
+#5 [internal] load .dockerignore
+#5 transferring context: 410B done
+#5 DONE 0.0s
+
+#6 [deps 1/5] FROM docker.io/library/node:22-alpine@sha256:0a7108bf6c7bf5de370ffb1a3ed6be93d405b43ff159f681a8d18c0e2bc2e402
+#6 DONE 0.0s
+
+#7 [internal] load build context
+#7 transferring context: 7.97kB 0.0s done
+#7 DONE 0.0s
+
+#8 [build 3/8] COPY --from=deps /app/node_modules ./node_modules
+#8 CACHED
+
+#9 [build 5/8] RUN test -n "https://abc.supabase.co" && test -n "sb_publishable_ACJWlzQHlZjBrEguHvfOxg_3BJgxAaH"     || (echo "Missing NEXT_PUBLIC_SUPABASE_URL / NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY build args" && exit 1)
+#9 CACHED
+
+#10 [deps 4/5] COPY package.json package-lock.json ./
+#10 CACHED
+
+#11 [deps 2/5] WORKDIR /app
+#11 CACHED
+
+#12 [deps 3/5] RUN apk add --no-cache libc6-compat
+#12 CACHED
+
+#13 [deps 5/5] RUN --mount=type=cache,target=/root/.npm npm ci --no-audit --no-fund
+#13 CACHED
+
+#14 [build 4/8] COPY . .
+#14 CACHED
+
+#15 [build 6/8] RUN case "https://abc.supabase.co" in       *://127.0.0.1*|*://localhost*|*://0.0.0.0*)         echo "NEXT_PUBLIC_SUPABASE_URL=https://abc.supabase.co points at a local Supabase."              "Use your hosted project's URL and publishable key in .env, then rebuild." && exit 1 ;;     esac
+#15 CACHED
+
+#16 [build 7/8] RUN if [ "sb_publishable_ACJWlzQHlZjBrEguHvfOxg_3BJgxAaH" = "sb_publishable_ACJWlzQHlZjBrEguHvfOxg_3BJgxAaH" ]; then       echo "NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY is the local Supabase default key."            "Copy the Publishable key from your hosted project (Project Settings -> API Keys) into .env." && exit 1;     fi
+#16 0.192 NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY is the local Supabase default key. Copy the Publishable key from your hosted project (Project Settings -> API Keys) into .env.
+#16 ERROR: process "/bin/sh -c if [ \"$NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY\" = \"sb_publishable_ACJWlzQHlZjBrEguHvfOxg_3BJgxAaH\" ]; then       echo \"NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY is the local Supabase default key.\"            \"Copy the Publishable key from your hosted project (Project Settings -> API Keys) into .env.\" && exit 1;     fi" did not complete successfully: exit code: 1
+------
+ > [build 7/8] RUN if [ "sb_publishable_ACJWlzQHlZjBrEguHvfOxg_3BJgxAaH" = "sb_publishable_ACJWlzQHlZjBrEguHvfOxg_3BJgxAaH" ]; then       echo "NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY is the local Supabase default key."            "Copy the Publishable key from your hosted project (Project Settings -> API Keys) into .env." && exit 1;     fi:
+0.192 NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY is the local Supabase default key. Copy the Publishable key from your hosted project (Project Settings -> API Keys) into .env.
+------
+ERROR: failed to build: failed to solve: process "/bin/sh -c if [ \"$NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY\" = \"sb_publishable_ACJWlzQHlZjBrEguHvfOxg_3BJgxAaH\" ]; then       echo \"NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY is the local Supabase default key.\"            \"Copy the Publishable key from your hosted project (Project Settings -> API Keys) into .env.\" && exit 1;     fi" did not complete successfully: exit code: 1
+
+View build details: docker-desktop://dashboard/build/desktop-linux/desktop-linux/shctg57ogp1y995edgm8avwvy

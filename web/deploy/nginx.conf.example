@@ -1,0 +1,36 @@
+# nginx site for Elsewhere, for a server where nginx already owns ports 80/443.
+#
+#   sudo cp deploy/nginx.conf.example /etc/nginx/sites-available/elsewhere
+#   sudo ln -s /etc/nginx/sites-available/elsewhere /etc/nginx/sites-enabled/
+#   sudo nginx -t && sudo systemctl reload nginx
+#   sudo certbot --nginx -d elsewhere.zovion.co      # adds HTTPS + the 443 block
+#
+# 3010 must match WEB_PORT in .env (default 3010).
+
+server {
+    listen 80;
+    listen [::]:80;
+    server_name elsewhere.zovion.co;
+
+    # Product photos are uploaded through the admin (10 MB limit in the app).
+    client_max_body_size 12m;
+
+    # Hashed build assets never change.
+    location /_next/static/ {
+        proxy_pass http://127.0.0.1:3010;
+        add_header Cache-Control "public, max-age=31536000, immutable";
+    }
+
+    location / {
+        proxy_pass http://127.0.0.1:3010;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header X-Forwarded-Host $host;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_read_timeout 60s;
+    }
+}
