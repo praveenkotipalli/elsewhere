@@ -2,10 +2,13 @@ import Link from "next/link";
 import { PixelWordmark } from "@/components/brand/PixelWordmark";
 import { site } from "@/lib/site";
 import { NAV } from "./nav";
+import { SkyDragon } from "./SkyDragon";
 
 export function SiteFooter() {
   return (
     <footer className="grain overflow-hidden bg-ink text-bone">
+      {/* `grain` makes the footer a positioned, isolated box, so -z-10 sits above its background. */}
+      <SkyDragon className="pointer-events-none absolute inset-0 -z-10 size-full" />
       <div className="gutter grid grid-cols-2 gap-x-6 gap-y-10 border-t border-char-2 pb-10 pt-12 md:grid-cols-12 md:pt-16">
         <div className="col-span-2 md:col-span-5">
           <p className="t-lede max-w-[34ch] text-fog">
