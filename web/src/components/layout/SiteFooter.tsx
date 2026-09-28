@@ -1,7 +1,5 @@
-import Image from "next/image";
 import Link from "next/link";
-import crowd from "@/assets/footer-crowd.webp";
-import { Wordmark } from "@/components/brand/Wordmark";
+import { PixelWordmark } from "@/components/brand/PixelWordmark";
 import { site } from "@/lib/site";
 import { NAV } from "./nav";
 
@@ -53,19 +51,8 @@ export function SiteFooter() {
           <p className="t-meta text-graphite">© {new Date().getFullYear()} Elsewhere</p>
         </div>
       </div>
-      <div className="gutter relative z-[2]" aria-hidden>
-        <Wordmark fit className="block w-full text-char-2" />
-      </div>
-      {/* The crowd: the people this is for, pressed up against the wordmark.
-          The art has a transparent sky, so raised hands and phones reach over
-          the letters and the front row's heads meet their base. Each
-          overlap lands the hands (24% down the art) on the wordmark's upper
-          half; it changes per breakpoint because the crop's height does. */}
-      <div
-        className="relative z-[3] -mt-[27vw] aspect-[4/3] w-full sm:-mt-[21vw] sm:aspect-[16/9] lg:-mt-[17.5vw] lg:aspect-[21/9]"
-        aria-hidden
-      >
-        <Image src={crowd} alt="" fill sizes="100vw" quality={80} className="object-cover object-bottom" />
+      <div className="gutter pb-[max(1rem,env(safe-area-inset-bottom))] pt-[clamp(4.5rem,10vw,10rem)]" aria-hidden>
+        <PixelWordmark className="block w-full text-bone" />
       </div>
     </footer>
   );
