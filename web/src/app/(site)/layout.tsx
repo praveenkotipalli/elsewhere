@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import { AuthSheet } from "@/components/auth/AuthSheet";
+import { LazyAuthSheet } from "@/components/auth/LazyAuthSheet";
 import { SessionProvider } from "@/components/auth/SessionProvider";
 import { SignInFromUrl } from "@/components/auth/SignInFromUrl";
 import { SiteFooter } from "@/components/layout/SiteFooter";
@@ -14,7 +14,7 @@ export default function SiteLayout({ children }: LayoutProps<"/">) {
       <SiteHeader />
       <main id="main">{children}</main>
       <SiteFooter />
-      <AuthSheet />
+      <LazyAuthSheet />
       <Toast />
       <RevealObserver />
       <SmoothScroll />

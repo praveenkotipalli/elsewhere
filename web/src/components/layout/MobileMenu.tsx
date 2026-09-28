@@ -26,7 +26,7 @@ export function MobileMenu({ open, onClose, onSearch }: { open: boolean; onClose
           role="dialog"
           aria-modal="true"
           aria-label="Menu"
-          className="grain fixed inset-0 z-40 flex flex-col bg-ink text-bone md:hidden"
+          className="grain fixed inset-0 z-[45] flex flex-col bg-ink text-bone md:hidden"
           initial={{ clipPath: "inset(0 0 100% 0)" }}
           animate={{ clipPath: "inset(0 0 0% 0)" }}
           exit={{ clipPath: "inset(0 0 100% 0)" }}

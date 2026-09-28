@@ -8,7 +8,6 @@ import { PieceCard } from "@/components/product/PieceCard";
 import { PieceImage } from "@/components/product/PieceImage";
 import { ProductActions } from "@/components/product/ProductActions";
 import { ViewBeacon } from "@/components/product/ViewBeacon";
-import { Arrow } from "@/components/ui/Arrow";
 import { getProduct, getProducts, related } from "@/lib/catalog";
 import { formatPrice, statusLabel, statusLine } from "@/lib/format";
 import { imageUrl } from "@/lib/images";
@@ -192,9 +191,6 @@ export default async function PiecePage({ params }: PageProps<"/pieces/[slug]">)
               />
             </span>
           )}
-          <span className="sr-only">
-            <Arrow />
-          </span>
         </Link>
       )}
     </article>

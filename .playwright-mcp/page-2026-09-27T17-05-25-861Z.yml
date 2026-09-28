@@ -1,0 +1,307 @@
+- generic [active] [ref=f2e1]:
+  - link "Skip to content" [ref=f2e2] [cursor=pointer]:
+    - /url: "#main"
+  - banner [ref=f2e3]:
+    - generic [ref=f2e4]:
+      - link "Elsewhere — home" [ref=f2e5] [cursor=pointer]:
+        - /url: /
+        - text: ELSEWHERE
+      - navigation "Primary" [ref=f2e6]:
+        - list [ref=f2e7]:
+          - listitem [ref=f2e8]:
+            - link "Drop 001" [ref=f2e9] [cursor=pointer]:
+              - /url: /drop/001
+          - listitem [ref=f2e10]:
+            - link "Pieces" [ref=f2e11] [cursor=pointer]:
+              - /url: /pieces
+          - listitem [ref=f2e12]:
+            - link "Vibes" [ref=f2e13] [cursor=pointer]:
+              - /url: /#vibes
+          - listitem [ref=f2e14]:
+            - link "Manifesto" [ref=f2e15] [cursor=pointer]:
+              - /url: /manifesto
+      - generic [ref=f2e16]:
+        - button "Search" [ref=f2e17] [cursor=pointer]
+        - link "Saved" [ref=f2e18] [cursor=pointer]:
+          - /url: /account/saved
+        - button "Sign in" [ref=f2e19] [cursor=pointer]
+  - main [ref=f2e20]:
+    - region [ref=f2e21]:
+      - img "A young man at night in a black satin bomber, a square panel on its chest glowing white under the camera flash" [ref=f2e24]
+      - generic [ref=f2e25]:
+        - generic [ref=f2e26]:
+          - paragraph [ref=f2e27]: Drop 001 — First Sighting
+          - paragraph [ref=f2e28]: 05 pieces · none of them made yet
+        - generic [ref=f2e29]:
+          - heading "They'll ask where you got it." [level=1] [ref=f2e30]:
+            - generic [ref=f2e31]: They'll ask
+            - generic [ref=f2e33]: where you
+            - generic [ref=f2e35]: got it.
+          - generic [ref=f2e37]:
+            - generic [ref=f2e38]:
+              - paragraph [ref=f2e39]: "Tell them: elsewhere."
+              - link "Enter Drop 001" [ref=f2e40] [cursor=pointer]:
+                - /url: /drop/001
+            - generic [ref=f2e44]:
+              - generic [ref=f2e48]: Scroll
+              - 'link "Worn: Afterhours Bomber, E-002" [ref=f2e49] [cursor=pointer]':
+                - /url: /pieces/afterhours-bomber
+    - region [ref=f2e50]:
+      - generic [ref=f2e51]:
+        - paragraph [ref=f2e53]: (Why we exist)
+        - generic [ref=f2e54]:
+          - heading "Made for the second look." [level=2] [ref=f2e55]:
+            - generic [ref=f2e56]: Made for the
+            - generic [ref=f2e58]: second look.
+          - generic [ref=f2e60]:
+            - paragraph [ref=f2e61]: Nobody needs another hoodie. We make the other thing — the piece someone notices from across the room, then can’t stop thinking about. Strange details. Small runs. Clothes first, then objects for your room, your desk, your hands.
+            - paragraph [ref=f2e62]: And we don’t guess. Nothing gets made until enough people say they want it.
+      - list [ref=f2e63]:
+        - listitem [ref=f2e64]:
+          - generic [ref=f2e65]: "01"
+          - generic [ref=f2e66]:
+            - heading "See it." [level=3] [ref=f2e67]
+            - paragraph [ref=f2e68]: Every piece here is a proposal. Real designs, photographed properly, not made yet.
+        - listitem [ref=f2e69]:
+          - generic [ref=f2e70]: "02"
+          - generic [ref=f2e71]:
+            - heading "Want it." [level=3] [ref=f2e72]
+            - paragraph [ref=f2e73]: Tap “I'm interested”. It costs nothing. It's a vote, and we count every one.
+        - listitem [ref=f2e74]:
+          - generic [ref=f2e75]: "03"
+          - generic [ref=f2e76]:
+            - heading "We make it." [level=3] [ref=f2e77]
+            - paragraph [ref=f2e78]: The pieces with the most yeses go into production, in small runs. The list hears first.
+    - region [ref=f2e79]:
+      - generic [ref=f2e80]:
+        - paragraph [ref=f2e81]: Drop 001
+        - heading "First Sighting." [level=2] [ref=f2e83]:
+          - generic [ref=f2e84]: First
+          - generic [ref=f2e86]: Sighting.
+        - generic [ref=f2e88]:
+          - paragraph [ref=f2e89]: Five pieces. None of them exist yet. The ones you want most get made.
+          - link "The whole drop" [ref=f2e90] [cursor=pointer]:
+            - /url: /drop/001
+      - generic [ref=f2e94]:
+        - generic [ref=f2e95]:
+          - link [ref=f2e97] [cursor=pointer]:
+            - /url: /pieces/dragon-denim
+            - img "Model leaning on a sunlit wall in extra-wide indigo jeans with a pale embroidered dragon down the left leg" [ref=f2e98]
+          - button "Save Dragon Denim" [ref=f2e99] [cursor=pointer]
+        - generic [ref=f2e102]:
+          - img "Close view of the chain-stitched dragon head at the hip" [ref=f2e104]
+          - generic [ref=f2e105]:
+            - generic [ref=f2e106]:
+              - paragraph [ref=f2e107]: 01 — E-001 · Denim · In validation
+              - heading "Dragon Denim" [level=3] [ref=f2e108]
+              - paragraph [ref=f2e109]: One dragon. One leg. No explanation.
+            - generic [ref=f2e110]:
+              - paragraph [ref=f2e111]: Extra-wide raw indigo denim with a tonal dragon chain-stitched from the hip to the hem of one leg.
+              - link "See the piece" [ref=f2e112] [cursor=pointer]:
+                - /url: /pieces/dragon-denim
+      - generic [ref=f2e117]:
+        - generic [ref=f2e118]:
+          - paragraph [ref=f2e119]: Worn after dark
+          - heading "Best seen under a flash." [level=3] [ref=f2e120]:
+            - generic [ref=f2e121]: Best seen
+            - generic [ref=f2e123]: under a flash.
+        - article [ref=f2e126]:
+          - link "Afterhours Bomber — Black in the room. Something else in the photo." [ref=f2e127] [cursor=pointer]:
+            - /url: /pieces/afterhours-bomber
+            - generic [ref=f2e128]:
+              - img "Model at night in a black satin bomber, the chest panel glowing white under flash" [ref=f2e129]
+              - generic: E-002
+            - generic [ref=f2e130]:
+              - generic [ref=f2e131]:
+                - heading "Afterhours Bomber" [level=3] [ref=f2e132]
+                - paragraph [ref=f2e133]: Black in the room. Something else in the photo.
+              - paragraph [ref=f2e134]: Outerwear
+          - button "Save Afterhours Bomber" [ref=f2e135] [cursor=pointer]
+        - article [ref=f2e139]:
+          - link "Static Tee — Channel 00. Nothing on. Everything to look at." [ref=f2e140] [cursor=pointer]:
+            - /url: /pieces/static-tee
+            - generic [ref=f2e141]:
+              - img "Model sitting in a dark room beside an old television, wearing a charcoal tee with a framed static print" [ref=f2e142]
+              - generic: E-003
+            - generic [ref=f2e143]:
+              - generic [ref=f2e144]:
+                - heading "Static Tee" [level=3] [ref=f2e145]
+                - paragraph [ref=f2e146]: Channel 00. Nothing on. Everything to look at.
+              - paragraph [ref=f2e147]: Tops
+          - button "Save Static Tee" [ref=f2e148] [cursor=pointer]
+      - generic [ref=f2e151]:
+        - generic [ref=f2e152]:
+          - generic [ref=f2e153]:
+            - img "A hand wearing three heavy molten-looking silver rings, resting against indigo denim" [ref=f2e154]
+            - 'link "01: Soft Metal" [ref=f2e155] [cursor=pointer]':
+              - /url: /pieces/soft-metal
+              - generic [ref=f2e157]: "01"
+            - 'link "02: Dragon Denim" [ref=f2e158] [cursor=pointer]':
+              - /url: /pieces/dragon-denim
+              - generic [ref=f2e160]: "02"
+          - generic [ref=f2e161]:
+            - paragraph [ref=f2e162]: Worn together
+            - list [ref=f2e163]:
+              - listitem [ref=f2e164]:
+                - link "01 Soft Metal Rings" [ref=f2e165] [cursor=pointer]:
+                  - /url: /pieces/soft-metal
+                  - generic [ref=f2e166]:
+                    - generic [ref=f2e167]: "01"
+                    - generic [ref=f2e168]: Soft Metal
+                  - generic [ref=f2e169]: Rings
+              - listitem [ref=f2e170]:
+                - link "02 Dragon Denim Denim" [ref=f2e171] [cursor=pointer]:
+                  - /url: /pieces/dragon-denim
+                  - generic [ref=f2e172]:
+                    - generic [ref=f2e173]: "02"
+                    - generic [ref=f2e174]: Dragon Denim
+                  - generic [ref=f2e175]: Denim
+            - paragraph [ref=f2e176]: Our first piece that isn’t clothing.
+        - generic [ref=f2e177]:
+          - link [ref=f2e179] [cursor=pointer]:
+            - /url: /pieces/red-room-overshirt
+            - img "Model in an oxblood corduroy overshirt standing in a red-painted hallway" [ref=f2e180]
+          - generic [ref=f2e181]:
+            - generic [ref=f2e182]:
+              - paragraph [ref=f2e183]: 04 — E-004 · Shirts · In validation
+              - heading "Red Room Overshirt" [level=3] [ref=f2e184]
+              - paragraph [ref=f2e185]: Wear it like a room you walk into.
+            - link "See the piece" [ref=f2e187] [cursor=pointer]:
+              - /url: /pieces/red-room-overshirt
+    - region [ref=f2e191]:
+      - generic [ref=f2e192]:
+        - paragraph [ref=f2e193]: (Shop by feeling)
+        - heading "Don't start with a category." [level=2] [ref=f2e194]:
+          - generic [ref=f2e195]: Don't start with
+          - generic [ref=f2e197]: a category.
+        - paragraph [ref=f2e200]: Start with how you want to be seen. Each piece lives in more than one of these.
+      - list [ref=f2e203]:
+        - listitem [ref=f2e204]:
+          - link "(01) The Statement Loud on purpose. 02" [ref=f2e205] [cursor=pointer]:
+            - /url: /vibe/the-statement
+            - generic [ref=f2e206]: (01)
+            - generic [ref=f2e207]: The Statement
+            - generic [ref=f2e209]: Loud on purpose.
+            - generic [ref=f2e210]: "02"
+        - listitem [ref=f2e212]:
+          - link "(02) After Dark Best seen under a flash. 02" [ref=f2e213] [cursor=pointer]:
+            - /url: /vibe/after-dark
+            - generic [ref=f2e214]: (02)
+            - generic [ref=f2e215]: After Dark
+            - generic [ref=f2e217]: Best seen under a flash.
+            - generic [ref=f2e218]: "02"
+        - listitem [ref=f2e220]:
+          - link "(03) The Quiet Says less. Gets asked about more. 02" [ref=f2e221] [cursor=pointer]:
+            - /url: /vibe/the-quiet
+            - generic [ref=f2e222]: (03)
+            - generic [ref=f2e223]: The Quiet
+            - generic [ref=f2e225]: Says less. Gets asked about more.
+            - generic [ref=f2e226]: "02"
+        - listitem [ref=f2e228]:
+          - link "(04) The Odd One Nobody else in the room has it. 03" [ref=f2e229] [cursor=pointer]:
+            - /url: /vibe/the-odd-one
+            - generic [ref=f2e230]: (04)
+            - generic [ref=f2e231]: The Odd One
+            - generic [ref=f2e233]: Nobody else in the room has it.
+            - generic [ref=f2e234]: "03"
+    - region [ref=f2e236]:
+      - generic [ref=f2e237]:
+        - paragraph [ref=f2e238]: (Beyond clothes)
+        - heading "Clothes are just the first room." [level=2] [ref=f2e239]:
+          - generic [ref=f2e240]: Clothes are just
+          - generic [ref=f2e242]: the first room.
+        - paragraph [ref=f2e245]: "The idea is bigger than a wardrobe: things for your outfit, your room, your desk and your phone, all picked with the same eye. We’re starting with clothes. The rest opens when you ask for it."
+      - list [ref=f2e246]:
+        - listitem [ref=f2e247]:
+          - link "Oxblood corduroy and a thin silver chain 01 Now Wear Denim / Outerwear / Tees / Shirts — Drop 001, in validation" [ref=f2e248] [cursor=pointer]:
+            - /url: /pieces?world=wear
+            - img "Oxblood corduroy and a thin silver chain" [ref=f2e249]
+            - generic [ref=f2e251]:
+              - generic [ref=f2e252]:
+                - generic [ref=f2e253]: "01"
+                - generic [ref=f2e254]: Now
+              - generic [ref=f2e256]:
+                - generic [ref=f2e257]: Wear
+                - generic [ref=f2e258]: Denim / Outerwear / Tees / Shirts — Drop 001, in validation
+        - listitem [ref=f2e259]:
+          - link "Three molten-looking silver rings on a hand 02 Testing Objects Rings / Chains / Small metal — One piece, to see if you want more" [ref=f2e260] [cursor=pointer]:
+            - /url: /pieces?world=objects
+            - img "Three molten-looking silver rings on a hand" [ref=f2e261]
+            - generic [ref=f2e263]:
+              - generic [ref=f2e264]:
+                - generic [ref=f2e265]: "02"
+                - generic [ref=f2e266]: Testing
+              - generic [ref=f2e267]:
+                - generic [ref=f2e268]: Objects
+                - generic [ref=f2e269]: Rings / Chains / Small metal — One piece, to see if you want more
+        - listitem [ref=f2e270]:
+          - 'generic "Room: Coming soon. Posters, Wall art, Desk objects." [ref=f2e271]':
+            - img "A dim bedroom wall with a framed black-and-white poster and a chrome lamp" [ref=f2e272]
+            - generic [ref=f2e274]:
+              - generic [ref=f2e275]:
+                - generic [ref=f2e276]: "03"
+                - generic [ref=f2e277]: Coming soon
+              - generic [ref=f2e278]:
+                - generic [ref=f2e279]: Room
+                - generic [ref=f2e280]: Posters / Wall art / Desk objects — Not yet. Tell us if you'd want it
+        - listitem [ref=f2e281]:
+          - 'generic "Tech: Coming soon. Laptop skins, Stickers, Phone things." [ref=f2e282]':
+            - generic [ref=f2e283]:
+              - generic [ref=f2e284]:
+                - generic [ref=f2e285]: "04"
+                - generic [ref=f2e286]: Coming soon
+              - generic [ref=f2e287]:
+                - generic [ref=f2e288]: Tech
+                - generic [ref=f2e289]: Laptop skins / Stickers / Phone things — Not yet
+        - listitem [ref=f2e290]:
+          - 'generic "Carry: Coming soon. Bags, Totes, Small leather." [ref=f2e291]':
+            - generic [ref=f2e292]:
+              - generic [ref=f2e293]:
+                - generic [ref=f2e294]: "05"
+                - generic [ref=f2e295]: Coming soon
+              - generic [ref=f2e296]:
+                - generic [ref=f2e297]: Carry
+                - generic [ref=f2e298]: Bags / Totes / Small leather — Not yet
+    - region [ref=f2e299]:
+      - generic [ref=f2e300]:
+        - paragraph [ref=f2e301]: (End of the page)
+        - heading "You found it." [level=2] [ref=f2e302]:
+          - generic [ref=f2e303]: You found
+          - generic [ref=f2e305]: it.
+        - generic [ref=f2e307]:
+          - paragraph [ref=f2e309]: Most people scroll straight past. You didn’t. Make an account, save what you like, and tell us what deserves to exist. We’ll tell you first when it does.
+          - generic [ref=f2e311]:
+            - button "Get on the list" [ref=f2e312] [cursor=pointer]
+            - link "Or keep looking" [ref=f2e316] [cursor=pointer]:
+              - /url: /drop/001
+  - contentinfo [ref=f2e317]:
+    - generic [ref=f2e318]:
+      - paragraph [ref=f2e320]: Elsewhere is in validation. Nothing here is for sale yet. Every piece is a proposal — the ones enough of you want are the ones we make.
+      - navigation "Footer" [ref=f2e321]:
+        - paragraph [ref=f2e322]: Look around
+        - list [ref=f2e323]:
+          - listitem [ref=f2e324]:
+            - link "Drop 001" [ref=f2e325] [cursor=pointer]:
+              - /url: /drop/001
+          - listitem [ref=f2e326]:
+            - link "Pieces" [ref=f2e327] [cursor=pointer]:
+              - /url: /pieces
+          - listitem [ref=f2e328]:
+            - link "Vibes" [ref=f2e329] [cursor=pointer]:
+              - /url: /#vibes
+          - listitem [ref=f2e330]:
+            - link "Manifesto" [ref=f2e331] [cursor=pointer]:
+              - /url: /manifesto
+      - generic [ref=f2e332]:
+        - paragraph [ref=f2e333]: You
+        - list [ref=f2e334]:
+          - listitem [ref=f2e335]:
+            - link "Saved" [ref=f2e336] [cursor=pointer]:
+              - /url: /account/saved
+          - listitem [ref=f2e337]:
+            - link "On the list" [ref=f2e338] [cursor=pointer]:
+              - /url: /account/list
+      - paragraph [ref=f2e340]: © 2026 Elsewhere
+    - img [ref=f2e342]:
+      - generic [ref=f2e343]: ELSEWHERE
+  - button "Open Next.js Dev Tools" [ref=f2e349] [cursor=pointer]

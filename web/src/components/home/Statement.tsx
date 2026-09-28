@@ -1,4 +1,5 @@
 import { Lines, Reveal } from "@/components/motion/Reveal";
+import { StitchedBlossomTree } from "@/components/stitch/StitchedBlossomTree";
 
 const STEPS = [
   { n: "01", title: "See it.", body: "Every piece here is a proposal. Real designs, photographed properly, not made yet." },
@@ -13,7 +14,9 @@ export function Statement() {
         <Reveal className="md:col-span-3">
           <p className="t-meta text-stone">(Why we exist)</p>
         </Reveal>
-        <div className="md:col-span-9">
+        {/* Sewn in beside the copy on desktop; after it, to the right, on mobile. */}
+        <StitchedBlossomTree className="order-last justify-self-end md:order-none md:col-span-3 md:row-start-2 md:self-end md:justify-self-start" />
+        <div className="md:col-span-9 md:row-span-2">
           <Lines
             as="h2"
             lines={[

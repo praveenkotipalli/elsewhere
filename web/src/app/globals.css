@@ -172,6 +172,75 @@
   }
 }
 
+/* ───────────────────────────────────────────── glass backdrop
+   iOS-style glass behind modal sheets: a light 8px blur over a thin
+   neutral tint, so the page stays legible through it. No saturate() and a
+   pure-black tint, so the warm palette isn't pushed toward yellow.
+   The blur itself is animated in by motion; the -webkit- line covers
+   older Safari. */
+@utility glass-backdrop {
+  background: rgb(0 0 0 / 0.15);
+  -webkit-backdrop-filter: blur(8px);
+  @media (prefers-reduced-transparency: reduce) {
+    background: rgb(0 0 0 / 0.85);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none !important;
+  }
+}
+
+/* ───────────────────────────────────────────── falling petals (<StitchedBlossomTree>)
+   Three layers per petal: the outer one falls (with a little wind), the middle
+   one sways side to side and rocks, the shape flips edge-on to read as tumbling. */
+.blossom-petals {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  display: none;
+}
+.blossom-petals[data-state] {
+  display: block;
+}
+.blossom-petals[data-state="paused"] * {
+  animation-play-state: paused;
+}
+.blossom-petal {
+  position: absolute;
+  width: calc(var(--tree) * 0.042 * var(--petal-size));
+  aspect-ratio: 10 / 12;
+  opacity: 0;
+  animation: petal-fall var(--petal-dur) cubic-bezier(0.35, 0.1, 0.65, 0.95) var(--petal-delay) infinite backwards;
+  will-change: transform, opacity;
+}
+.blossom-petal-sway {
+  display: block;
+  width: 100%;
+  height: 100%;
+  animation: petal-sway calc(var(--petal-dur) / 3) ease-in-out infinite;
+}
+.blossom-petal-shape {
+  display: block;
+  width: 100%;
+  height: 100%;
+  animation: petal-flip calc(var(--petal-dur) / 5) ease-in-out infinite;
+}
+@keyframes petal-fall {
+  0% { transform: translate(0, 0); opacity: 0; }
+  10% { opacity: 0.95; }
+  80% { opacity: 0.9; }
+  100% { transform: translate(var(--petal-wind), var(--petal-fall)); opacity: 0; }
+}
+@keyframes petal-sway {
+  0%, 100% { transform: translateX(calc(var(--petal-drift) * -1)) rotate(-30deg); }
+  50% { transform: translateX(var(--petal-drift)) rotate(40deg); }
+}
+@keyframes petal-flip {
+  0%, 100% { transform: scaleX(1); }
+  50% { transform: scaleX(0.3); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .blossom-petals { display: none !important; }
+}
+
 /* ───────────────────────────────────────────── reveals (driven by <Reveal>) */
 [data-reveal] {
   --reveal-delay: 0ms;
@@ -349,6 +418,13 @@ html:not(.js) [data-reveal] .line-inner {
   100% {
     transform: scaleY(0);
     transform-origin: bottom;
+  }
+}
+
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    translate: 0 1rem;
   }
 }
 

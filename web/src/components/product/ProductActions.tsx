@@ -13,15 +13,26 @@ export function ProductActions({ product }: { product: P }) {
   const [offscreen, setOffscreen] = useState(false);
   const { interested } = useSession();
 
-  // Phones: once the in-page buttons scroll away, keep "I'm interested" in reach.
+  // Phones: once the in-page buttons have scrolled above the viewport, keep "I'm interested"
+  // in reach. A scroll check rather than an IntersectionObserver: a jump from below the
+  // fold to above it (fast flick, restored scroll) never crosses an IO threshold.
   useEffect(() => {
     const el = block.current;
     if (!el) return;
-    const io = new IntersectionObserver(([e]) => setOffscreen(!e.isIntersecting && e.boundingClientRect.top < 0), {
-      threshold: 0,
-    });
-    io.observe(el);
-    return () => io.disconnect();
+    let raf = 0;
+    const check = () => {
+      raf = 0;
+      setOffscreen(el.getBoundingClientRect().bottom < 0);
+    };
+    const onScroll = () => {
+      if (!raf) raf = requestAnimationFrame(check);
+    };
+    check();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener("scroll", onScroll);
+    };
   }, []);
 
   return (

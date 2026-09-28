@@ -48,7 +48,7 @@ function copyFor(intent: Intent | null) {
 }
 
 export function AuthSheet() {
-  const { authOpen, closeAuth, intent, user } = useSession();
+  const { authOpen, closeAuth, user } = useSession();
   const panel = useRef<HTMLDivElement>(null);
   useScrollLock(authOpen);
   useFocusTrap(panel, authOpen, closeAuth);
@@ -68,11 +68,11 @@ export function AuthSheet() {
           <motion.button
             aria-label="Close"
             tabIndex={-1}
-            className="absolute inset-0 cursor-default bg-ink/55"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.5, ease: EASE }}
+            className="glass-backdrop absolute inset-0 cursor-default"
+            initial={{ opacity: 0, backdropFilter: "blur(0px)" }}
+            animate={{ opacity: 1, backdropFilter: "blur(8px)" }}
+            exit={{ opacity: 0, backdropFilter: "blur(0px)" }}
+            transition={{ duration: 0.6, ease: EASE }}
             onClick={closeAuth}
           />
           <motion.div

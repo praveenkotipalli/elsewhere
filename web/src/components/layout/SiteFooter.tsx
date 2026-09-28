@@ -1,4 +1,6 @@
+import Image from "next/image";
 import Link from "next/link";
+import crowd from "@/assets/footer-crowd.webp";
 import { Wordmark } from "@/components/brand/Wordmark";
 import { site } from "@/lib/site";
 import { NAV } from "./nav";
@@ -51,8 +53,21 @@ export function SiteFooter() {
           <p className="t-meta text-graphite">© {new Date().getFullYear()} Elsewhere</p>
         </div>
       </div>
-      <div className="gutter pb-[max(1rem,env(safe-area-inset-bottom))]" aria-hidden>
+      <div className="gutter relative z-[2]" aria-hidden>
         <Wordmark fit className="block w-full text-char-2" />
+      </div>
+      {/* The crowd: the people this is for, standing under the wordmark.
+          `lighten` drops the art's pure black into the ink so it has no edge. */}
+      <div className="relative -mt-[8vw] aspect-[4/3] w-full sm:aspect-[16/9] lg:aspect-[21/9]" aria-hidden>
+        <Image
+          src={crowd}
+          alt=""
+          fill
+          sizes="100vw"
+          quality={80}
+          className="object-cover object-bottom opacity-90 mix-blend-lighten"
+        />
+        <div className="absolute inset-x-0 top-0 h-1/3 bg-gradient-to-b from-ink to-transparent" />
       </div>
     </footer>
   );

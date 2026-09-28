@@ -5,8 +5,11 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useSession } from "@/components/auth/SessionProvider";
 import { Wordmark } from "@/components/brand/Wordmark";
-import { SearchOverlay } from "@/components/search/SearchOverlay";
-import { MobileMenu } from "./MobileMenu";
+import dynamic from "next/dynamic";
+
+// Overlays (and the animation library they use) load on first open, not on every page.
+const SearchOverlay = dynamic(() => import("@/components/search/SearchOverlay").then((m) => m.SearchOverlay), { ssr: false });
+const MobileMenu = dynamic(() => import("./MobileMenu").then((m) => m.MobileMenu), { ssr: false });
 import { NAV } from "./nav";
 
 export function SiteHeader() {
@@ -15,6 +18,9 @@ export function SiteHeader() {
   const [hidden, setHidden] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
+  const [loaded, setLoaded] = useState({ menu: false, search: false });
+  if (menuOpen && !loaded.menu) setLoaded((l) => ({ ...l, menu: true }));
+  if (searchOpen && !loaded.search) setLoaded((l) => ({ ...l, search: true }));
 
   // Step out of the way while reading down; come back the moment they scroll up.
   useEffect(() => {
@@ -125,11 +131,11 @@ export function SiteHeader() {
         </div>
       </header>
 
-      <MobileMenu open={menuOpen} onClose={() => setMenuOpen(false)} onSearch={() => {
+      {loaded.menu && <MobileMenu open={menuOpen} onClose={() => setMenuOpen(false)} onSearch={() => {
         setMenuOpen(false);
         setSearchOpen(true);
-      }} />
-      <SearchOverlay open={searchOpen} onClose={() => setSearchOpen(false)} />
+      }} />}
+      {loaded.search && <SearchOverlay open={searchOpen} onClose={() => setSearchOpen(false)} />}
     </>
   );
 }
