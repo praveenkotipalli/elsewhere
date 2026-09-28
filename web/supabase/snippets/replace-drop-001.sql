@@ -1,25 +1,19 @@
--- ELSEWHERE — Drop 001 seed. Real concept pieces only; no invented demand.
--- Specs describe what is planned, and may change before anything is produced.
+-- Swap Drop 001 over to the three real designs WITHOUT resetting the database
+-- (accounts, admins and profiles are kept). Deleting the old products also
+-- removes their saves, interest votes and views, since those cascade.
+-- Run it in Supabase Studio (http://127.0.0.1:54323) > SQL editor, once Docker is up.
 
-insert into public.drops (id, code, title, description, is_public, sort) values
-  ('00000000-0000-4000-8000-000000000001', '001', 'First Sighting',
-   'Three pieces of denim. None of them exist yet. The ones you want most get made.', true, 1);
+begin;
 
-insert into public.categories (slug, name, world, sort) values
-  ('denim',     'Denim',     'wear',    1),
-  ('outerwear', 'Outerwear', 'wear',    2),
-  ('tops',      'Tops',      'wear',    3),
-  ('shirts',    'Shirts',    'wear',    4),
-  ('trousers',  'Trousers',  'wear',    5),
-  ('knitwear',  'Knitwear',  'wear',    6),
-  ('rings',     'Rings',     'objects', 7);
+delete from public.products;
+
+update public.drops
+   set description = 'Three pieces of denim. None of them exist yet. The ones you want most get made.'
+ where code = '001';
 
 insert into public.vibes (slug, name, tagline, sort) values
-  ('the-statement', 'The Statement', 'Loud on purpose.',                 1),
-  ('after-dark',    'After Dark',    'Best seen under a flash.',          2),
-  ('the-quiet',     'The Quiet',     'Says less. Gets asked about more.', 3),
-  ('the-odd-one',   'The Odd One',   'Nobody else in the room has it.',  4),
-  ('minimal',       'Minimal',       'One small thing. Nothing else.',    5);
+  ('minimal', 'Minimal', 'One small thing. Nothing else.', 5)
+on conflict (slug) do nothing;
 
 with c as (select slug, id from public.categories)
 insert into public.products
@@ -94,3 +88,5 @@ join (values
   ('little-bones', '/images/drop-001/little-bones-01.jpg', 'Model in a white tee and vintage-wash wide jeans, hands in pockets, a tiny skeleton below the front pocket', 1304, 2398, 0),
   ('little-bones', '/images/drop-001/little-bones-02.jpg', 'Close view of the small raised cream skeleton stitched under the front pocket', 1306, 2398, 1)
 ) as i(slug, src, alt, w, h, sort) on i.slug = p.slug;
+
+commit;

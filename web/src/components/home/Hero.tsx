@@ -14,7 +14,7 @@ export function Hero({ pieceCount }: { pieceCount: number }) {
         <div className="hero-plate relative size-full overflow-hidden">
           <Image
             src={hero}
-            alt="A young man at night in a black satin bomber, a square panel on its chest glowing white under the camera flash"
+            alt="A model seen from behind in washed-black wide jeans, a red embroidered dragon coiling across both back pockets"
             fill
             preload
             placeholder="blur"
@@ -64,8 +64,8 @@ export function Hero({ pieceCount }: { pieceCount: number }) {
                 </span>
                 <span className="t-meta text-ash">Scroll</span>
               </span>
-              <Link href="/pieces/afterhours-bomber" className="t-meta link-line text-ash hover:text-bone">
-                Worn: Afterhours Bomber, E-002
+              <Link href="/pieces/red-dragon-denim" className="t-meta link-line text-ash hover:text-bone">
+                Worn: Red Dragon Denim, E-001
               </Link>
             </div>
           </Reveal>

@@ -18,8 +18,8 @@ type World = {
 
 // Honest about where each world stands: only Wear exists as a drop.
 const WORLDS: World[] = [
-  { name: "Wear", state: "Now", note: "Drop 001, in validation", items: ["Denim", "Outerwear", "Tees", "Shirts"], href: "/pieces?world=wear", image: wear, alt: "Oxblood corduroy and a thin silver chain" },
-  { name: "Objects", state: "Testing", note: "One piece, to see if you want more", items: ["Rings", "Chains", "Small metal"], href: "/pieces?world=objects", image: objects, alt: "Three molten-looking silver rings on a hand" },
+  { name: "Wear", state: "Now", note: "Drop 001, in validation", items: ["Denim", "Outerwear", "Tees", "Shirts"], href: "/pieces?world=wear", image: wear, alt: "Small raised koi embroidered down a leg of indigo denim" },
+  { name: "Objects", state: "Coming soon", note: "Not yet. Tell us if you'd want it", items: ["Rings", "Chains", "Small metal"], image: objects, alt: "Three molten-looking silver rings on a hand" },
   { name: "Room", state: "Coming soon", note: "Not yet. Tell us if you'd want it", items: ["Posters", "Wall art", "Desk objects"], image: room, alt: "A dim bedroom wall with a framed black-and-white poster and a chrome lamp" },
   { name: "Tech", state: "Coming soon", note: "Not yet", items: ["Laptop skins", "Stickers", "Phone things"] },
   { name: "Carry", state: "Coming soon", note: "Not yet", items: ["Bags", "Totes", "Small leather"] },
