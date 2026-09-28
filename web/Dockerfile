@@ -34,6 +34,13 @@ ENV NEXT_PUBLIC_SITE_URL=$NEXT_PUBLIC_SITE_URL \
 
 RUN test -n "$NEXT_PUBLIC_SUPABASE_URL" && test -n "$NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY" \
     || (echo "Missing NEXT_PUBLIC_SUPABASE_URL / NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY build args" && exit 1)
+# 127.0.0.1/localhost inside a container is the container itself, and in visitors' browsers
+# it's their own device. The URL must be one the internet can reach (e.g. https://<ref>.supabase.co).
+RUN case "$NEXT_PUBLIC_SUPABASE_URL" in \
+      *://127.0.0.1*|*://localhost*|*://0.0.0.0*) \
+        echo "NEXT_PUBLIC_SUPABASE_URL=$NEXT_PUBLIC_SUPABASE_URL points at a local Supabase." \
+             "Use your hosted project's URL and publishable key in .env, then rebuild." && exit 1 ;; \
+    esac
 RUN npm run build
 
 # ── runtime: only the standalone server, static assets and public files ──────
