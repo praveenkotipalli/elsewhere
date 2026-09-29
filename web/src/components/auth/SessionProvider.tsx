@@ -4,11 +4,13 @@ import type { User } from "@supabase/supabase-js";
 import { useRouter } from "next/navigation";
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { supabaseBrowser } from "@/lib/supabase/client";
+import { track } from "@/lib/track";
 
 /** Something the visitor tried to do before signing in, replayed right after. */
 export type Intent =
   | { kind: "save"; productId: string; productName: string; image?: string }
   | { kind: "interest"; productId: string; productName: string; image?: string }
+  | { kind: "vote"; worldId: string; worldName: string }
   | { kind: "signin"; next?: string };
 
 type Toast = { id: number; message: string; tone: "plain" | "signal" };
@@ -18,12 +20,15 @@ type Session = {
   ready: boolean;
   saved: Set<string>;
   interested: Set<string>;
+  /** Worlds this person asked us to make something for. */
+  voted: Set<string>;
   authOpen: boolean;
   intent: Intent | null;
   openAuth: (intent?: Intent) => void;
   closeAuth: () => void;
   toggleSave: (p: { id: string; name: string; image?: string }) => Promise<void>;
   setInterest: (p: { id: string; name: string; image?: string }, on: boolean) => Promise<void>;
+  setVote: (w: { id: string; name: string }, on: boolean) => Promise<void>;
   signOut: () => Promise<void>;
   toast: Toast | null;
   notify: (message: string, tone?: Toast["tone"]) => void;
@@ -59,6 +64,7 @@ export function SessionProvider({ children }: { children: ReactNode }) {
   const [ready, setReady] = useState(false);
   const [saved, setSaved] = useState<Set<string>>(new Set());
   const [interested, setInterested] = useState<Set<string>>(new Set());
+  const [voted, setVoted] = useState<Set<string>>(new Set());
   const [authOpen, setAuthOpen] = useState(false);
   const [intent, setIntent] = useState<Intent | null>(null);
   const [toast, setToast] = useState<Toast | null>(null);
@@ -73,12 +79,14 @@ export function SessionProvider({ children }: { children: ReactNode }) {
 
   const loadSignals = useCallback(
     async (uid: string) => {
-      const [w, i] = await Promise.all([
+      const [w, i, v] = await Promise.all([
         supabase.from("wishlists").select("product_id").eq("user_id", uid),
         supabase.from("product_interests").select("product_id").eq("user_id", uid).eq("status", "active"),
+        supabase.from("world_interests").select("world_id").eq("user_id", uid),
       ]);
       setSaved(new Set((w.data ?? []).map((r) => r.product_id)));
       setInterested(new Set((i.data ?? []).map((r) => r.product_id)));
+      setVoted(new Set((v.data ?? []).map((r) => r.world_id)));
     },
     [supabase],
   );
@@ -104,6 +112,7 @@ export function SessionProvider({ children }: { children: ReactNode }) {
         });
         throw error;
       }
+      if (on) track("save", { productId });
     },
     [supabase],
   );
@@ -126,6 +135,32 @@ export function SessionProvider({ children }: { children: ReactNode }) {
         });
         throw error;
       }
+      if (on) track("interest", { productId });
+    },
+    [supabase],
+  );
+
+  const writeVote = useCallback(
+    async (uid: string, worldId: string, on: boolean) => {
+      setVoted((s) => {
+        const n = new Set(s);
+        if (on) n.add(worldId);
+        else n.delete(worldId);
+        return n;
+      });
+      const { error } = on
+        ? await supabase.from("world_interests").upsert({ user_id: uid, world_id: worldId }, { ignoreDuplicates: true })
+        : await supabase.from("world_interests").delete().eq("user_id", uid).eq("world_id", worldId);
+      if (error) {
+        setVoted((s) => {
+          const n = new Set(s);
+          if (on) n.delete(worldId);
+          else n.add(worldId);
+          return n;
+        });
+        throw error;
+      }
+      if (on) track("world_vote", { worldId });
     },
     [supabase],
   );
@@ -139,6 +174,9 @@ export function SessionProvider({ children }: { children: ReactNode }) {
         } else if (it.kind === "interest") {
           await writeInterest(it.productId, true);
           notify(`You're on the list for ${it.productName}.`, "signal");
+        } else if (it.kind === "vote") {
+          await writeVote(uid, it.worldId, true);
+          notify(`Counted. We'll tell you when ${it.worldName} gets its first piece.`, "signal");
         } else if (it.next) {
           router.push(it.next);
         } else {
@@ -148,7 +186,7 @@ export function SessionProvider({ children }: { children: ReactNode }) {
         notify("That didn't go through. Try once more.");
       }
     },
-    [writeSave, writeInterest, notify, router],
+    [writeSave, writeInterest, writeVote, notify, router],
   );
 
   useEffect(() => {
@@ -183,6 +221,7 @@ export function SessionProvider({ children }: { children: ReactNode }) {
       if (event === "SIGNED_OUT") {
         setSaved(new Set());
         setInterested(new Set());
+        setVoted(new Set());
         router.refresh();
       }
     });
@@ -237,6 +276,19 @@ export function SessionProvider({ children }: { children: ReactNode }) {
     [user, openAuth, writeInterest, notify],
   );
 
+  const setVote = useCallback(
+    async (w: { id: string; name: string }, on: boolean) => {
+      if (!user) return openAuth({ kind: "vote", worldId: w.id, worldName: w.name });
+      try {
+        await writeVote(user.id, w.id, on);
+        notify(on ? `Counted. We'll tell you when ${w.name} gets its first piece.` : `Vote for ${w.name} removed.`, on ? "signal" : "plain");
+      } catch {
+        notify("That didn't go through. Try once more.");
+      }
+    },
+    [user, openAuth, writeVote, notify],
+  );
+
   const signOut = useCallback(async () => {
     await supabase.auth.signOut();
     router.push("/");
@@ -248,17 +300,19 @@ export function SessionProvider({ children }: { children: ReactNode }) {
       ready,
       saved,
       interested,
+      voted,
       authOpen,
       intent,
       openAuth,
       closeAuth,
       toggleSave,
       setInterest,
+      setVote,
       signOut,
       toast,
       notify,
     }),
-    [user, ready, saved, interested, authOpen, intent, openAuth, closeAuth, toggleSave, setInterest, signOut, toast, notify],
+    [user, ready, saved, interested, voted, authOpen, intent, openAuth, closeAuth, toggleSave, setInterest, setVote, signOut, toast, notify],
   );
 
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;

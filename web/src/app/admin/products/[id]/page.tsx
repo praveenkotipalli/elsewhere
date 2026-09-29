@@ -14,7 +14,7 @@ export default async function EditProduct({ params, searchParams }: PageProps<"/
   const [{ data: p }, opts, interest, saves] = await Promise.all([
     supabase
       .from("products")
-      .select("*, images:product_images(id, src, alt, width, height, sort), vibes:product_vibes(vibe_id)")
+      .select("*, images:product_images(id, src, alt, width, height, sort), vibes:product_vibes(vibe_id), worlds:product_worlds(world_id)")
       .eq("id", id)
       .maybeSingle(),
     formOptions(supabase),
@@ -71,6 +71,7 @@ export default async function EditProduct({ params, searchParams }: PageProps<"/
           price_minor: p.price_minor,
           sort: p.sort,
           vibe_ids: (p.vibes as { vibe_id: string }[]).map((v) => v.vibe_id),
+          world_ids: (p.worlds as { world_id: string }[]).map((w) => w.world_id),
           has_images: images.length > 0,
         }}
       />

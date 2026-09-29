@@ -83,7 +83,7 @@ join (values
   ('red-dragon-denim', '/images/drop-001/red-dragon-denim-01.jpg', 'Model seen from behind in washed-black wide jeans, a red embroidered dragon coiling across both back pockets', 1536, 2304, 0),
   ('red-dragon-denim', '/images/drop-001/red-dragon-denim-03.jpg', 'Close view of the raised red dragon: its head over the left pocket, its body ringed over the right', 1528, 2048, 1),
   ('red-dragon-denim', '/images/drop-001/red-dragon-denim-02.jpg', 'Model crouching in the black dragon jeans, the red leather patch at the waistband', 1530, 2048, 2),
-  ('koi-denim', '/images/drop-001/koi-denim-01.jpg', 'Model crouching in mid-indigo wide jeans with small embroidered koi scattered down the leg', 1024, 1612, 0),
+  ('koi-denim', '/images/drop-001/koi-denim-01.jpg', 'Model crouching in mid-indigo wide jeans with small embroidered koi scattered down the leg', 1024, 1536, 0),
   ('koi-denim', '/images/drop-001/koi-denim-02.jpg', 'Close view of the raised koi in coral, orange and gold, with small flower bursts', 1024, 1476, 1),
   ('little-bones', '/images/drop-001/little-bones-01.jpg', 'Model in a white tee and vintage-wash wide jeans, hands in pockets, a tiny skeleton below the front pocket', 1304, 2398, 0),
   ('little-bones', '/images/drop-001/little-bones-02.jpg', 'Close view of the small raised cream skeleton stitched under the front pocket', 1306, 2398, 1)

@@ -39,6 +39,7 @@ export default async function NewProduct() {
           price_minor: null,
           sort: (last?.sort ?? 0) + 1,
           vibe_ids: [],
+          world_ids: [],
           has_images: false,
         }}
       />

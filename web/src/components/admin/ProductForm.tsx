@@ -22,21 +22,32 @@ export type ProductDraft = {
   price_minor: number | null;
   sort: number;
   vibe_ids: string[];
+  world_ids: string[];
   has_images: boolean;
 };
 
 type Opt = { id: string; name: string };
+
+const WORLD_GROUPS = [
+  { kind: "style_icon", label: "Style icons" },
+  { kind: "anime", label: "Anime" },
+  { kind: "essentials", label: "Essentials" },
+  { kind: "aesthetic", label: "Aesthetics" },
+  { kind: "collection", label: "Collections" },
+];
 
 export function ProductForm({
   product,
   categories,
   drops,
   vibes,
+  worlds,
 }: {
   product: ProductDraft;
   categories: Opt[];
   drops: Opt[];
   vibes: Opt[];
+  worlds: (Opt & { kind: string; is_public: boolean })[];
 }) {
   const [state, action, pending] = useActionState<ProductFormState, FormData>(saveProduct, {});
   const [deleting, startDelete] = useTransition();
@@ -104,6 +115,27 @@ export function ProductForm({
               </label>
             ))}
           </div>
+        </fieldset>
+        <fieldset className="flex flex-col gap-4 md:col-span-6">
+          <legend className="t-meta mb-1.5 text-stone">Worlds — where customers discover this piece</legend>
+          {WORLD_GROUPS.map((g) => {
+            const list = worlds.filter((w) => w.kind === g.kind);
+            if (list.length === 0) return null;
+            return (
+              <div key={g.kind} className="flex flex-col gap-2 md:flex-row md:items-center md:gap-4">
+                <span className="t-meta w-28 shrink-0 text-stone">{g.label}</span>
+                <div className="flex flex-wrap gap-2">
+                  {list.map((w) => (
+                    <label key={w.id} className="t-meta flex h-9 cursor-pointer items-center gap-2 border border-ink/15 px-3 has-[:checked]:border-ink has-[:checked]:bg-ink has-[:checked]:text-bone">
+                      <input type="checkbox" name="worlds" value={w.id} defaultChecked={product.world_ids.includes(w.id)} className="sr-only" />
+                      {w.name}
+                      {!w.is_public && <span className="opacity-60">(hidden)</span>}
+                    </label>
+                  ))}
+                </div>
+              </div>
+            );
+          })}
         </fieldset>
         <Field label="Tags" name="tags" defaultValue={product.tags.join(", ")} hint="Comma separated, helps search" className="md:col-span-2" />
         <label className="flex items-center gap-3 md:col-span-6">

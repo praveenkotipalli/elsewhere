@@ -106,6 +106,13 @@ export async function saveProduct(_: ProductFormState, form: FormData): Promise<
     if (error) return { error: error.message };
   }
 
+  const worldIds = form.getAll("worlds").map(String).filter(Boolean);
+  await supabase.from("product_worlds").delete().eq("product_id", productId);
+  if (worldIds.length) {
+    const { error } = await supabase.from("product_worlds").insert(worldIds.map((world_id) => ({ product_id: productId, world_id })));
+    if (error) return { error: error.message };
+  }
+
   refreshCatalog();
   if (!id) redirect(`/admin/products/${productId}?created=1`);
   return { ok: true };

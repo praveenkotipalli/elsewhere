@@ -86,6 +86,55 @@ cp .env.example .env        # fill DOMAIN and the NEXT_PUBLIC_* values
 - No domain yet? Temporarily replace `{$DOMAIN}` in the `Caddyfile` with `:80` and browse to the server IP
   (no HTTPS, and Google sign-in will not work until you have a real domain).
 
+## Discovery worlds
+
+Customers discover pieces through **worlds**, not categories. Categories still exist, but only for internal
+organisation and the Essentials shelves.
+
+| Family | URL | Worlds come from | Default theme |
+|---|---|---|---|
+| Style Icons | `/style-icons`, `/style-icons/[slug]` | `worlds` where `kind = style_icon` | `icon` |
+| Anime | `/anime`, `/anime/[slug]` | `worlds` where `kind = anime` | `anime` |
+| Essentials | `/essentials` (one world) | `worlds` where `kind = essentials` | `essentials` |
+| Aesthetics | `/aesthetics`, `/vibe/[slug]` | `vibes` | house style |
+
+`/discover` is the door to all of them. A piece belongs to any number of worlds (`product_worlds`), set from
+**Admin → Pieces → a piece → Worlds**. Worlds themselves are created, re-ordered, hidden and given covers under
+**Admin → Worlds**, which also shows each world's visitors, time spent, the pieces people reached from it, and who
+voted "make something for this world".
+
+Style icons are an aesthetic reference only: pages say "inspired", carry a no-affiliation note, and never use a
+likeness (the portrait is typographic until you upload licensed photography). Anime worlds use original abstract art
+(`src/components/worlds/WorldArt.tsx`) until you have licensed artwork.
+
+### Adding a family (Street, Y2K, Music…)
+
+1. Add its `kind` to the `world_kind` enum in a new migration, and insert its worlds.
+2. Add one entry to `FAMILIES` in `src/lib/worlds/families.ts` (URL key, copy, card style, default theme).
+
+The `/[family]` and `/[family]/[world]` routes, the sitemap, the Explore rooms and the admin pick it up. No new pages.
+
+### Giving one world its own look ("make One Piece look like…")
+
+Themes live in `src/lib/worlds/themes/`. A theme re-points the site's design tokens while you are inside the world,
+so every component, the header and the footer follow without knowing about it.
+
+1. Create `src/lib/worlds/themes/one-piece.ts` exporting a `WorldTheme` (see `types.ts`; copy `anime.ts` as a start):
+   palette, fonts (via `next/font`), display type settings, motion speed/easing, backdrop, entrance
+   (`wipe` / `fade` / `none`), product presentation (`editorial` / `essentials` / `poster`) and optional extra `css`
+   (scoped to the world automatically).
+2. Register it in `src/lib/worlds/themes/index.ts`.
+3. In **Admin → Worlds → One Piece**, pick it under *Theme* (or set `worlds.theme_key = 'one-piece'`).
+
+Nothing else changes; other worlds keep their look. New backdrop effects go in `WorldArt.tsx` (`PATTERNS`), new
+product layouts in `src/components/worlds/presentations.tsx`.
+
+### Discovery analytics
+
+`discovery_events` (written only through `track_event()`) records `family_view`, `world_view`, `world_time`,
+`product_view`, `save`, `interest` and `world_vote`. Each event carries the world the visitor last entered in the
+previous 30 minutes, so the admin can see "people who explore Naruto end up wanting these pieces".
+
 ---
 
 ## How it's built
@@ -99,6 +148,7 @@ cp .env.example .env        # fill DOMAIN and the NEXT_PUBLIC_* values
 | `/pieces` | Everything, filterable by world / type / vibe (URL params) |
 | `/pieces/[slug]` | Editorial product page: gallery + zoom, spec, story, save / I'm interested, more like this, next piece |
 | `/vibe/[slug]` | Aesthetic-led discovery |
+| `/discover`, `/[family]`, `/[family]/[world]` | Discovery worlds — see below |
 | `/manifesto` | The brand, in its own words |
 | `/account`, `/account/saved`, `/account/list` | Profile, wishlist, interests (signed-in) |
 | `/admin` … | Decision board, interest explorer + CSV, pieces CRUD with image upload, people |

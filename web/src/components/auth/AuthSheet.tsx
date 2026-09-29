@@ -24,6 +24,16 @@ function copyFor(intent: Intent | null) {
         ),
         body: "Make an account and we'll count you in. If it gets made, you hear before anyone else.",
       };
+    case "vote":
+      return {
+        kicker: intent.worldName,
+        title: (
+          <>
+            Make it <span className="t-voice">happen.</span>
+          </>
+        ),
+        body: `Make an account and your vote for ${intent.worldName} counts. When it gets its first piece, you hear first.`,
+      };
     case "save":
       return {
         kicker: "Saved pieces",
@@ -107,7 +117,7 @@ function SheetBody() {
   const [error, setError] = useState<string | null>(null);
   const [cooldown, setCooldown] = useState(0);
   const copy = copyFor(intent);
-  const product = intent && intent.kind !== "signin" ? intent : null;
+  const product = intent && (intent.kind === "save" || intent.kind === "interest") ? intent : null;
 
   useEffect(() => {
     if (cooldown <= 0) return;

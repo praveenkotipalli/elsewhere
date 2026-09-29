@@ -8,6 +8,8 @@ import { PieceCard } from "@/components/product/PieceCard";
 import { PieceImage } from "@/components/product/PieceImage";
 import { ProductActions } from "@/components/product/ProductActions";
 import { ViewBeacon } from "@/components/product/ViewBeacon";
+import { TrailBack } from "@/components/worlds/TrailBack";
+import { worldHref } from "@/lib/worlds/families";
 import { getProduct, getProducts, related } from "@/lib/catalog";
 import { formatPrice, statusLabel, statusLine } from "@/lib/format";
 import { imageUrl } from "@/lib/images";
@@ -79,6 +81,7 @@ export default async function PiecePage({ params }: PageProps<"/pieces/[slug]">)
         <div className="gutter pt-8 md:col-span-5 md:px-0 md:pt-0 lg:col-span-4 lg:col-start-9">
           <div className="flex flex-col gap-10 md:sticky md:top-[calc(var(--header-h)+1rem)]">
             <header className="flex flex-col gap-4">
+              <TrailBack />
               <p className="t-meta flex flex-wrap gap-x-2 text-stone">
                 {product.drop && (
                   <Link href={`/drop/${product.drop.code}`} className="link-line">
@@ -132,10 +135,20 @@ export default async function PiecePage({ params }: PageProps<"/pieces/[slug]">)
               </section>
             )}
 
-            {product.vibes.length > 0 && (
+            {(product.vibes.length > 0 || product.worlds.length > 0) && (
               <nav aria-label="Explore the aesthetic" className="flex flex-col gap-3">
                 <p className="t-meta text-stone">Explore the aesthetic</p>
                 <ul className="flex flex-wrap gap-2">
+                  {product.worlds.map((w) => (
+                    <li key={w.id}>
+                      <Link
+                        href={worldHref(w.kind, w.slug)}
+                        className="t-meta inline-flex h-9 items-center border border-ink/20 px-3 transition-colors hover:border-ink hover:bg-ink hover:text-bone"
+                      >
+                        {w.kind === "style_icon" ? `${w.name}-inspired` : w.name}
+                      </Link>
+                    </li>
+                  ))}
                   {product.vibes.map((v) => (
                     <li key={v.id}>
                       <Link

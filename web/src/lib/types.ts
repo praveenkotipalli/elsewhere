@@ -62,4 +62,22 @@ export type Product = {
   drop: Drop | null;
   images: ProductImage[];
   vibes: Vibe[];
+  worlds: WorldRef[];
+};
+
+/** Customer-facing discovery. Not the same thing as a category's `World`. */
+export type WorldKind = "style_icon" | "anime" | "essentials" | "aesthetic" | "collection";
+
+export type WorldRef = { id: string; slug: string; name: string; kind: WorldKind };
+
+export type DiscoveryWorld = WorldRef & {
+  eyebrow: string | null;
+  tagline: string | null;
+  description: string | null;
+  cover_src: string | null;
+  cover_alt: string | null;
+  accent: string | null;
+  pattern: string | null;
+  theme_key: string | null;
+  sort: number;
 };

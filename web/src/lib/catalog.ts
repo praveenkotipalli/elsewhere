@@ -1,7 +1,7 @@
 import "server-only";
 import { unstable_cache } from "next/cache";
 import { supabasePublic } from "./supabase/public";
-import type { Category, Drop, Product, Vibe } from "./types";
+import type { Category, DiscoveryWorld, Drop, Product, Vibe, WorldKind, WorldRef } from "./types";
 
 export const CATALOG_TAG = "catalog";
 
@@ -11,12 +11,14 @@ export const PRODUCT_SELECT = `
   category:categories(id, slug, name, world, sort),
   drop:drops(id, code, title, description),
   images:product_images(id, src, alt, width, height, sort),
-  vibes(id, slug, name, tagline, sort)
+  vibes(id, slug, name, tagline, sort),
+  worlds(id, slug, name, kind)
 `;
 
-type Row = Omit<Product, "images" | "vibes"> & {
+type Row = Omit<Product, "images" | "vibes" | "worlds"> & {
   images: Product["images"] | null;
   vibes: Vibe[] | null;
+  worlds?: WorldRef[] | null;
 };
 
 export function normalize(row: Row): Product {
@@ -25,11 +27,18 @@ export function normalize(row: Row): Product {
     details: Array.isArray(row.details) ? row.details : [],
     images: [...(row.images ?? [])].sort((a, b) => a.sort - b.sort),
     vibes: [...(row.vibes ?? [])].sort((a, b) => a.sort - b.sort),
+    worlds: row.worlds ?? [],
   };
 }
 
+/**
+ * Bump when the shape of cached data changes. The data cache outlives deploys (it
+ * sits in a Docker volume), and an old-shaped entry would crash the new code.
+ */
+const CACHE_VERSION = "v2-worlds";
+
 const cached = <A extends unknown[], R>(key: string, fn: (...args: A) => Promise<R>) =>
-  unstable_cache(fn, [key], { tags: [CATALOG_TAG], revalidate: 300 });
+  unstable_cache(fn, [CACHE_VERSION, key], { tags: [CATALOG_TAG], revalidate: 300 });
 
 export const getProducts = cached("products", async (): Promise<Product[]> => {
   const { data, error } = await supabasePublic()
@@ -97,4 +106,32 @@ export function related(product: Product, all: Product[], limit = 4) {
     .sort((a, b) => b.score - a.score || a.p.sort - b.p.sort)
     .slice(0, limit)
     .map(({ p }) => p);
+}
+
+const WORLD_SELECT = "id, kind, slug, name, eyebrow, tagline, description, cover_src, cover_alt, accent, pattern, theme_key, sort";
+
+/** Public worlds, optionally of one kind, in their curated order. */
+export const getWorlds = cached("worlds", async (kind?: WorldKind): Promise<DiscoveryWorld[]> => {
+  let q = supabasePublic().from("worlds").select(WORLD_SELECT).eq("is_public", true).order("sort");
+  if (kind) q = q.eq("kind", kind);
+  const { data, error } = await q;
+  if (error) throw error;
+  return data as DiscoveryWorld[];
+});
+
+export const getWorld = cached("world", async (kind: WorldKind, slug: string): Promise<DiscoveryWorld | null> => {
+  const { data, error } = await supabasePublic()
+    .from("worlds")
+    .select(WORLD_SELECT)
+    .eq("kind", kind)
+    .eq("slug", slug)
+    .eq("is_public", true)
+    .maybeSingle();
+  if (error) throw error;
+  return data as DiscoveryWorld | null;
+});
+
+/** Pieces that belong to a world. */
+export function inWorld(products: Product[], worldId: string) {
+  return products.filter((p) => p.worlds.some((w) => w.id === worldId));
 }

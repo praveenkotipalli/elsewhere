@@ -11,6 +11,7 @@ import dynamic from "next/dynamic";
 const SearchOverlay = dynamic(() => import("@/components/search/SearchOverlay").then((m) => m.SearchOverlay), { ssr: false });
 const MobileMenu = dynamic(() => import("./MobileMenu").then((m) => m.MobileMenu), { ssr: false });
 import { NAV } from "./nav";
+import { FAMILIES } from "@/lib/worlds/families";
 
 export function SiteHeader() {
   const pathname = usePathname();
@@ -79,7 +80,10 @@ export function SiteHeader() {
           <nav aria-label="Primary" className="hidden md:block">
             <ul className="flex items-center gap-8">
               {NAV.map((item) => {
-                const active = item.href !== "/#vibes" && pathname.startsWith(item.href);
+                // Explore owns every family and world URL, not just /discover.
+                const active =
+                  pathname.startsWith(item.href) ||
+                  (item.href === "/discover" && FAMILIES.some((f) => pathname.startsWith(`/${f.key}`)));
                 return (
                   <li key={item.href}>
                     <Link
